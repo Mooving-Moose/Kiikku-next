@@ -11,6 +11,7 @@ const KIIKKU_ADDRESS = 'Hupisaarten Kaupunginpuisto, 90100 Oulu';
 const KIIKKU_MAPS_QUERY = 'Hupisaarten Kaupunginpuisto, 90100 Oulu';
 const KIIKKU_HOURS_FI = 'Loka- ja marraskuu lauantai ja sunnuntai 10–16';
 const KIIKKU_HOURS_EN = 'October and November Saturday and Sunday 10–16';
+const CATERING_SHOP_URL = process.env.NEXT_PUBLIC_CATERING_SHOP_URL || '';
 
 const content = {
   en: {
@@ -19,6 +20,7 @@ const content = {
       kiikku: 'Kiikku',
       menu: 'Menu',
       hupikioski: 'Hupikioski',
+      catering: 'Catering',
       events: 'Private events',
       location: 'Location',
       contact: 'Contact',
@@ -73,6 +75,12 @@ const content = {
         { img: '/images/wine.jpg', title: 'Wine & drinks', items: ['Wines', 'Beers', 'Long drinks', 'Summer cocktails'] },
       ],
     },
+    catering: {
+      label: 'Catering',
+      title: 'Kiikku Catering for meetings and celebrations',
+      text: 'Order breakfast, lunch, meeting service, cakes and catering packages in advance. The shop is a separate QuickBar storefront — not the theatre pre-order at teatteri.kiikku.fi.',
+      button: 'Order catering',
+    },
     hupi: {
       label: 'Hupikioski',
       title: 'The Summer Theatre Café in Hupisaaret',
@@ -110,6 +118,7 @@ const content = {
       kiikku: 'Kiikku',
       menu: 'Menu',
       hupikioski: 'Hupikioski',
+      catering: 'Catering',
       events: 'Yksityistilaisuudet',
       location: 'Sijainti',
       contact: 'Yhteystiedot',
@@ -163,6 +172,12 @@ const content = {
         { img: '/images/grill.jpg', title: 'Grilliherkut', items: ['Grillimakkarat', 'Burgerit', 'Grillattavat tuotteet', 'Iltapalat'] },
         { img: '/images/wine.jpg', title: 'Viinit & drinkit', items: ['Viinit', 'Oluet', 'Long drinkit', 'Kesädrinkit'] },
       ],
+    },
+    catering: {
+      label: 'Catering',
+      title: 'Kiikun Catering kokouksiin ja juhliin',
+      text: 'Tilaa aamupalat, lounaat, kokoustarjoilut, kakut ja catering-paketit etukäteen. Verkkokauppa on QuickBarin oma storefront — se ei ole teatterin ennakkotilaus teatteri.kiikku.fi-osoitteessa.',
+      button: 'Tilaa catering',
     },
     hupi: {
       label: 'Hupikioski',
@@ -247,6 +262,7 @@ useEffect(() => {
           <nav className="links" aria-label="Main navigation">
             <a href="#menu">{t.nav.menu}</a>
             <a href="#hupikioski">{t.nav.hupikioski}</a>
+            {CATERING_SHOP_URL ? <a href="#catering">{t.nav.catering}</a> : null}
             <a href="#events">{t.nav.events}</a>
             <a href="#location">{t.nav.location}</a>
             <a href="#contact">{t.nav.contact}</a>
@@ -291,6 +307,9 @@ useEffect(() => {
           <nav className="mobile-nav-panel" aria-label="Mobile navigation">
             <a href="#menu" onClick={() => setMenuOpen(false)}>{t.nav.menu}</a>
             <a href="#hupikioski" onClick={() => setMenuOpen(false)}>{t.nav.hupikioski}</a>
+            {CATERING_SHOP_URL ? (
+              <a href="#catering" onClick={() => setMenuOpen(false)}>{t.nav.catering}</a>
+            ) : null}
             <a href="#events" onClick={() => setMenuOpen(false)}>{t.nav.events}</a>
             <a href="#location" onClick={() => setMenuOpen(false)}>{t.nav.location}</a>
             <a href="#contact" onClick={() => setMenuOpen(false)}>{t.nav.contact}</a>
@@ -504,6 +523,27 @@ useEffect(() => {
           </div>
         </div>
       </section>
+
+      {CATERING_SHOP_URL ? (
+        <section className="private-events" id="catering">
+          <div className="container private-box">
+            <div>
+              <p className="label">{t.catering.label}</p>
+              <h2 className="serif h2">{t.catering.title}</h2>
+            </div>
+            <div>
+              <p className="copy">{t.catering.text}</p>
+              <a
+                className="primary inline-primary"
+                href={CATERING_SHOP_URL}
+                rel="noopener noreferrer"
+              >
+                {t.catering.button}
+              </a>
+            </div>
+          </div>
+        </section>
+      ) : null}
 
       <section className="private-events" id="events">
         <div className="container private-box">
