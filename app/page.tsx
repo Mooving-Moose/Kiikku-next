@@ -11,7 +11,19 @@ const KIIKKU_ADDRESS = 'Hupisaarten Kaupunginpuisto, 90100 Oulu';
 const KIIKKU_MAPS_QUERY = 'Hupisaarten Kaupunginpuisto, 90100 Oulu';
 const KIIKKU_HOURS_FI = 'Loka- ja marraskuu lauantai ja sunnuntai 10–16';
 const KIIKKU_HOURS_EN = 'October and November Saturday and Sunday 10–16';
-const CATERING_SHOP_URL = process.env.NEXT_PUBLIC_CATERING_SHOP_URL || '';
+function publicCateringShopUrl(raw: string) {
+  const value = String(raw || '').trim();
+  if (!value) return '';
+  try {
+    const url = new URL(value);
+    if (url.protocol !== 'https:') return '';
+    return url.toString();
+  } catch {
+    return '';
+  }
+}
+
+const CATERING_SHOP_URL = publicCateringShopUrl(process.env.NEXT_PUBLIC_CATERING_SHOP_URL || '');
 
 const content = {
   en: {
@@ -78,7 +90,7 @@ const content = {
     catering: {
       label: 'Catering',
       title: 'Kiikku Catering for meetings and celebrations',
-      text: 'Order breakfast, lunch, meeting service, cakes and catering packages in advance. The shop is a separate QuickBar storefront — not the theatre pre-order at teatteri.kiikku.fi.',
+      text: 'Order breakfast, lunch, meeting service, cakes and catering packages in advance. The catering shop opens in a new tab and is separate from theatre pre-orders at teatteri.kiikku.fi.',
       button: 'Order catering',
     },
     hupi: {
@@ -176,7 +188,7 @@ const content = {
     catering: {
       label: 'Catering',
       title: 'Kiikun Catering kokouksiin ja juhliin',
-      text: 'Tilaa aamupalat, lounaat, kokoustarjoilut, kakut ja catering-paketit etukäteen. Verkkokauppa on QuickBarin oma storefront — se ei ole teatterin ennakkotilaus teatteri.kiikku.fi-osoitteessa.',
+      text: 'Tilaa aamupalat, lounaat, kokoustarjoilut, kakut ja catering-paketit etukäteen. Catering-kauppa avautuu uuteen välilehteen ja on erillään teatterin ennakkotilauksesta teatteri.kiikku.fi-osoitteessa.',
       button: 'Tilaa catering',
     },
     hupi: {
@@ -536,7 +548,9 @@ useEffect(() => {
               <a
                 className="primary inline-primary"
                 href={CATERING_SHOP_URL}
+                target="_blank"
                 rel="noopener noreferrer"
+                data-testid="kiikku-catering-shop-link"
               >
                 {t.catering.button}
               </a>
