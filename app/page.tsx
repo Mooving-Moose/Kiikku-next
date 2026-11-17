@@ -25,6 +25,27 @@ function publicCateringShopUrl(raw: string) {
 
 const CATERING_SHOP_URL = publicCateringShopUrl(process.env.NEXT_PUBLIC_CATERING_SHOP_URL || '');
 
+function CateringAnnouncement({ lang }: { lang: Lang }) {
+  if (!CATERING_SHOP_URL) return null;
+  const fi = lang === 'fi';
+  return (
+    <a
+      className="catering-announcement"
+      href={CATERING_SHOP_URL}
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label={fi ? 'UUTTA – Kiikun Catering -verkkokauppa on nyt avattu. Avaa verkkokauppa' : 'NEW – Kiikku Catering online shop is now open. Open the shop'}
+      data-testid="kiikku-catering-announcement"
+    >
+      <span className="catering-announcement-badge">{fi ? 'UUTTA' : 'NEW'}</span>
+      <strong>{fi ? 'Kiikun Catering -verkkokauppa on nyt avattu!' : 'Kiikku Catering online shop is now open!'}</strong>
+      <span className="catering-announcement-copy">{fi ? 'Tilaa kokousten ja juhlien tarjoilut helposti ennakkoon.' : 'Order catering for meetings and celebrations in advance.'}</span>
+      <span className="catering-announcement-cta">{fi ? 'Tutustu verkkokauppaan' : 'Explore the online shop'} <span aria-hidden="true">↗</span></span>
+    </a>
+  );
+}
+
+
 const content = {
   en: {
     topStrip: [`Opening hours: ${KIIKKU_HOURS_EN}`, 'Private events available outside regular café hours'],
@@ -343,6 +364,7 @@ useEffect(() => {
             </div>
           </div>
           <aside className="desktop-blog-card">
+            <CateringAnnouncement lang={lang} />
             <div className="float-icon">✉</div>
             <p className="blog-label">KIIKUN BLOGI</p>
             <h3 className="serif">{t.hero.eventTitle}</h3>
@@ -381,6 +403,7 @@ useEffect(() => {
       <section className="mobile-blog-section">
         <div className="container">
           <div className="mobile-blog-card">
+           <CateringAnnouncement lang={lang} />
            <div className="float-icon">✉</div>
             <h3 className="serif">{t.hero.eventTitle}</h3>
             <p>{t.hero.eventText}</p>
