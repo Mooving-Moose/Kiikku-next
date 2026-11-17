@@ -500,7 +500,7 @@ useEffect(() => {
                 {t.hupi.items.map((item) => <div key={item}>{item}</div>)}
               </div>
             </div>
-            <a className="hupi-link" href="https://teatteri.kiikku.fi" target="_blank" rel="noopener noreferrer">{t.hupi.link}</a>
+            <a className="hupi-link" href="https://www.quickbar.fi" target="_blank" rel="noopener noreferrer">{t.hupi.link}</a>
           </div>
         </div>
       </section>
