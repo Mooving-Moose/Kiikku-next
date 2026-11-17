@@ -11,6 +11,40 @@ const KIIKKU_ADDRESS = 'Hupisaarten Kaupunginpuisto, 90100 Oulu';
 const KIIKKU_MAPS_QUERY = 'Hupisaarten Kaupunginpuisto, 90100 Oulu';
 const KIIKKU_HOURS_FI = 'Loka- ja marraskuu lauantai ja sunnuntai 10–16';
 const KIIKKU_HOURS_EN = 'October and November Saturday and Sunday 10–16';
+function publicCateringShopUrl(raw: string) {
+  const value = String(raw || '').trim();
+  if (!value) return '';
+  try {
+    const url = new URL(value);
+    if (url.protocol !== 'https:') return '';
+    return url.toString();
+  } catch {
+    return '';
+  }
+}
+
+const CATERING_SHOP_URL = publicCateringShopUrl(process.env.NEXT_PUBLIC_CATERING_SHOP_URL || '');
+
+function CateringAnnouncement({ lang }: { lang: Lang }) {
+  if (!CATERING_SHOP_URL) return null;
+  const fi = lang === 'fi';
+  return (
+    <a
+      className="catering-announcement"
+      href={CATERING_SHOP_URL}
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label={fi ? 'UUTTA – Kiikun Catering -verkkokauppa on nyt avattu. Avaa verkkokauppa' : 'NEW – Kiikku Catering online shop is now open. Open the shop'}
+      data-testid="kiikku-catering-announcement"
+    >
+      <span className="catering-announcement-badge">{fi ? 'UUTTA' : 'NEW'}</span>
+      <strong>{fi ? 'Kiikun Catering -verkkokauppa on nyt avattu!' : 'Kiikku Catering online shop is now open!'}</strong>
+      <span className="catering-announcement-copy">{fi ? 'Tilaa kokousten ja juhlien tarjoilut helposti ennakkoon.' : 'Order catering for meetings and celebrations in advance.'}</span>
+      <span className="catering-announcement-cta">{fi ? 'Tutustu verkkokauppaan' : 'Explore the online shop'} <span aria-hidden="true">↗</span></span>
+    </a>
+  );
+}
+
 
 const content = {
   en: {
@@ -19,6 +53,7 @@ const content = {
       kiikku: 'Kiikku',
       menu: 'Menu',
       hupikioski: 'Hupikioski',
+      catering: 'Catering',
       events: 'Private events',
       location: 'Location',
       contact: 'Contact',
@@ -73,6 +108,12 @@ const content = {
         { img: '/images/wine.jpg', title: 'Wine & drinks', items: ['Wines', 'Beers', 'Long drinks', 'Summer cocktails'] },
       ],
     },
+    catering: {
+      label: 'Catering',
+      title: 'Kiikku Catering for meetings and celebrations',
+      text: 'Order breakfast, lunch, meeting service, cakes and catering packages in advance. The catering shop opens in a new tab and is separate from theatre pre-orders at teatteri.kiikku.fi.',
+      button: 'Order catering',
+    },
     hupi: {
       label: 'Hupikioski',
       title: 'The Summer Theatre Café in Hupisaaret',
@@ -110,6 +151,7 @@ const content = {
       kiikku: 'Kiikku',
       menu: 'Menu',
       hupikioski: 'Hupikioski',
+      catering: 'Catering',
       events: 'Yksityistilaisuudet',
       location: 'Sijainti',
       contact: 'Yhteystiedot',
@@ -163,6 +205,12 @@ const content = {
         { img: '/images/grill.jpg', title: 'Grilliherkut', items: ['Grillimakkarat', 'Burgerit', 'Grillattavat tuotteet', 'Iltapalat'] },
         { img: '/images/wine.jpg', title: 'Viinit & drinkit', items: ['Viinit', 'Oluet', 'Long drinkit', 'Kesädrinkit'] },
       ],
+    },
+    catering: {
+      label: 'Catering',
+      title: 'Kiikun Catering kokouksiin ja juhliin',
+      text: 'Tilaa aamupalat, lounaat, kokoustarjoilut, kakut ja catering-paketit etukäteen. Catering-kauppa avautuu uuteen välilehteen ja on erillään teatterin ennakkotilauksesta teatteri.kiikku.fi-osoitteessa.',
+      button: 'Tilaa catering',
     },
     hupi: {
       label: 'Hupikioski',
@@ -247,6 +295,7 @@ useEffect(() => {
           <nav className="links" aria-label="Main navigation">
             <a href="#menu">{t.nav.menu}</a>
             <a href="#hupikioski">{t.nav.hupikioski}</a>
+            {CATERING_SHOP_URL ? <a href="#catering">{t.nav.catering}</a> : null}
             <a href="#events">{t.nav.events}</a>
             <a href="#location">{t.nav.location}</a>
             <a href="#contact">{t.nav.contact}</a>
@@ -291,6 +340,9 @@ useEffect(() => {
           <nav className="mobile-nav-panel" aria-label="Mobile navigation">
             <a href="#menu" onClick={() => setMenuOpen(false)}>{t.nav.menu}</a>
             <a href="#hupikioski" onClick={() => setMenuOpen(false)}>{t.nav.hupikioski}</a>
+            {CATERING_SHOP_URL ? (
+              <a href="#catering" onClick={() => setMenuOpen(false)}>{t.nav.catering}</a>
+            ) : null}
             <a href="#events" onClick={() => setMenuOpen(false)}>{t.nav.events}</a>
             <a href="#location" onClick={() => setMenuOpen(false)}>{t.nav.location}</a>
             <a href="#contact" onClick={() => setMenuOpen(false)}>{t.nav.contact}</a>
@@ -312,6 +364,7 @@ useEffect(() => {
             </div>
           </div>
           <aside className="desktop-blog-card">
+            <CateringAnnouncement lang={lang} />
             <div className="float-icon">✉</div>
             <p className="blog-label">KIIKUN BLOGI</p>
             <h3 className="serif">{t.hero.eventTitle}</h3>
@@ -350,6 +403,7 @@ useEffect(() => {
       <section className="mobile-blog-section">
         <div className="container">
           <div className="mobile-blog-card">
+           <CateringAnnouncement lang={lang} />
            <div className="float-icon">✉</div>
             <h3 className="serif">{t.hero.eventTitle}</h3>
             <p>{t.hero.eventText}</p>
@@ -504,6 +558,29 @@ useEffect(() => {
           </div>
         </div>
       </section>
+
+      {CATERING_SHOP_URL ? (
+        <section className="private-events" id="catering">
+          <div className="container private-box">
+            <div>
+              <p className="label">{t.catering.label}</p>
+              <h2 className="serif h2">{t.catering.title}</h2>
+            </div>
+            <div>
+              <p className="copy">{t.catering.text}</p>
+              <a
+                className="primary inline-primary"
+                href={CATERING_SHOP_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                data-testid="kiikku-catering-shop-link"
+              >
+                {t.catering.button}
+              </a>
+            </div>
+          </div>
+        </section>
+      ) : null}
 
       <section className="private-events" id="events">
         <div className="container private-box">

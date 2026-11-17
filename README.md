@@ -32,3 +32,14 @@ npm start
 - Oiva report link is currently a placeholder in the footer. Replace `href="#"` with the actual Oiva URL or PDF path.
 - Hupikioski links to `https://teatteri.kiikku.fi`.
 - Private event inquiries use `mailto:kahvilakiikku@gmail.com`.
+- Catering is a separate QuickBar shop. It appears in the nav and as a
+  **Tilaa catering** section only when `NEXT_PUBLIC_CATERING_SHOP_URL` is set
+  at build time. Production kiikku.fi stays unchanged until that env is set.
+
+  Staging shop (current demo):
+
+  `NEXT_PUBLIC_CATERING_SHOP_URL=https://staging.quickbar.fi/shop/kiikun-catering-test`
+
+  Set it first on a Kiikku Preview/test deployment. Do not iframe the shop,
+  and do not point it at teatteri.kiikku.fi. A later `catering.kiikku.fi`
+  hostname needs a separate DNS decision.

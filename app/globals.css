@@ -1235,3 +1235,56 @@ footer {
     font-size: 14px;
   }
 }
+
+
+/* Kiikku Catering launch card, displayed above the Kiikussa tapahtuu blog. */
+.catering-announcement {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 21px;
+  margin: 0 0 26px;
+  border-radius: 22px;
+  border: 1px solid rgba(255, 225, 161, .48);
+  background: linear-gradient(135deg, #163f2f 0%, #245640 70%, #315e43 100%);
+  color: #fffdf7;
+  text-decoration: none;
+  box-shadow: 0 12px 30px rgba(10, 45, 29, .23);
+  transition: transform .18s ease, box-shadow .18s ease;
+}
+.catering-announcement:hover,
+.catering-announcement:focus-visible { transform: translateY(-2px); box-shadow: 0 15px 35px rgba(10,45,29,.3); }
+.catering-announcement:focus-visible { outline: 3px solid #fbd178; outline-offset: 3px; }
+.catering-announcement-badge {
+  align-self: flex-start;
+  padding: 5px 11px;
+  border-radius: 999px;
+  color: #183e2e;
+  background: #fbd178;
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: .11em;
+}
+.catering-announcement strong { font-size: clamp(21px, 2vw, 25px); line-height: 1.2; color: #fffdf7; }
+.desktop-blog-card .catering-announcement .catering-announcement-copy,
+.mobile-blog-card .catering-announcement .catering-announcement-copy {
+  color: #f4f2e8;
+  line-height: 1.5;
+  font-size: 14px;
+}
+.catering-announcement-cta {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 5px;
+  border-radius: 12px;
+  padding: 11px 15px;
+  color: #173827;
+  background: #fbd178;
+  font-size: 14px;
+  font-weight: 900;
+}
+@media (max-width: 600px) {
+  .catering-announcement { padding: 19px; margin-bottom: 24px; }
+}
